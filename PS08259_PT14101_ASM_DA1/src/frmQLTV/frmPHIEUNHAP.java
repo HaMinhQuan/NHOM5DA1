@@ -12,6 +12,15 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Phieunhapsach;
+import java.awt.HeadlessException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import model.Nhanvien;
+import model.NhanvienDao;
+import model.Phieunhapsach;
+import model.PhieunhapsachDao;
+import model.Sach;
+import model.SachDao;
 
 /**
  *
@@ -23,6 +32,10 @@ public class frmPHIEUNHAP extends javax.swing.JFrame {
      * Creates new form frmMENU
      */
     List<Phieunhapsach> list = new ArrayList<>();
+    List<Sach> sach= new ArrayList<>();
+    List<Phieunhap> phieunhap= new ArrayList<>();
+    List<Nhanvien> nhanvien= new ArrayList<>();
+    private int currentindex;
 
     public frmPHIEUNHAP() {
         initComponents();
@@ -714,7 +727,38 @@ public class frmPHIEUNHAP extends javax.swing.JFrame {
     }//GEN-LAST:event_mitTHONGKEActionPerformed
 
     private void btnPNCAPNHATActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPNCAPNHATActionPerformed
-
+        if(txtMAPN.getText().equals(""){
+        JOptionPane.showMessageDialog(this,"Vui lòng nhập mã phiếu nhập");
+        return;
+        }
+           try{
+           boolean ckloi = false;
+           boolean kt = kiemloiphieunhap();
+               if(kt== false){
+               return;
+               }else{
+               
+               }
+           boolean ckmaphieunhap = false;
+               for(Phieunhapsach pn: phieunhap){
+               if(pn.getMaphieunhap().equals(txtMAPN.getText())){
+                   ckmaphieunhap= true;
+                   break;
+               }
+           }
+               if(!ckmaphieunhap){
+               JOptionPane.showMessageDialog(this,"Mã phiếu nhập không tồn tại");
+                   return;
+               }
+               capnhatPhieunhap();
+               laydulieuPhieunhap("");
+           }
+               catch(HeadlessException e){
+           JOptionPane.showMessageDialog(this,"Cập nhật sách thất bại");
+           }catch(SQLException ex){
+               Logger.getLogger(frmPHIEUNHAP.class.getName()).log(Level.SEVERE,null,ex);
+               }
+           }
     }//GEN-LAST:event_btnPNCAPNHATActionPerformed
 
     private void btnPNNHAPMOIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPNNHAPMOIActionPerformed
